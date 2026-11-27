@@ -5,5 +5,7 @@
 	/// </summary>
 	public class TypescriptGeneratorConfig : BaseGeneratorConfig
 	{
+		public bool IncludeDeclaration { get; set; }
+		public bool IncludeSummary { get; set; }
 	}
 }

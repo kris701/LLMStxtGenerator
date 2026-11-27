@@ -23,21 +23,26 @@ namespace LLMStxtGenerator.Services
 			foreach (var file in allMatching)
 			{
 				var fileText = File.ReadAllText(Path.Combine(config.WorkingDirectory, file));
-				var declaration = GetDeclaration(fileText);
-				var summary = GetSummaryOrNull(fileText);
-
 				var indent = GetFileDepth(file);
 				sb.Append($"{new string(' ', indent)} * \"{file}\"");
 
-				if (declaration != null)
-					sb.Append($". Declaration: \"{declaration}\"");
-				else
-					sb.Append(".");
-
-				if (summary != null)
-					sb.AppendLine($". Summary: \"{summary}\"");
-				else
-					sb.AppendLine(".");
+				if (config.IncludeDeclaration)
+				{
+					var declaration = GetDeclaration(fileText);
+					if (declaration != null)
+						sb.Append($". Declaration: \"{declaration}\"");
+					else
+						sb.Append(".");
+				}
+				if (config.IncludeSummary)
+				{
+					var summary = GetSummaryOrNull(fileText);
+					if (summary != null)
+						sb.Append($". Summary: \"{summary}\"");
+					else
+						sb.Append(".");
+				}
+				sb.AppendLine();
 			}
 
 			return sb.ToString();
