@@ -4,6 +4,7 @@ using LLMStxtGenerator.Helpers;
 using LLMStxtGenerator.Models;
 using LLMStxtGenerator.Models.Config;
 using LLMStxtGenerator.Services;
+using System.Text;
 using System.Text.Json;
 
 /// <summary>
@@ -38,7 +39,7 @@ internal class Program
 		ConsoleHelpers.WriteLineColor("Done!", ConsoleColor.Green);
 
 		ConsoleHelpers.WriteColor("Writing file...   ", ConsoleColor.Blue);
-		await File.WriteAllTextAsync(parsed.OutputDirectory, result);
+		await File.WriteAllTextAsync(parsed.OutputFile, result);
 		ConsoleHelpers.WriteLineColor("Done!", ConsoleColor.Green);
 	}
 
@@ -46,9 +47,10 @@ internal class Program
 	{
 		ConsoleHelpers.WriteLineColor($"A total of {opts.ConfigFiles.Count()} config files to process.", ConsoleColor.Blue);
 
+		var configFiles = new List<IGeneratorConfig>();
 		foreach (var config in opts.ConfigFiles)
 		{
-			ConsoleHelpers.WriteColor("Reading config file...", ConsoleColor.Blue);
+			ConsoleHelpers.WriteColor("\tReading config file...", ConsoleColor.Blue);
 			var text = await File.ReadAllTextAsync(config);
 			var parsed = JsonSerializer.Deserialize<IGeneratorConfig>(text, new JsonSerializerOptions()
 			{
@@ -59,14 +61,37 @@ internal class Program
 				throw new Exception("Could not parse config file!");
 			ConsoleHelpers.WriteLineColor("Done!", ConsoleColor.Green);
 
-			ConsoleHelpers.WriteColor("Starting generator...", ConsoleColor.Blue);
+			ConsoleHelpers.WriteColor("\tStarting generator...", ConsoleColor.Blue);
 			var result = await GenerateLLMsTxt(parsed);
 			ConsoleHelpers.WriteLineColor("Done!", ConsoleColor.Green);
 
-			ConsoleHelpers.WriteColor("Writing file...", ConsoleColor.Blue);
-			await File.WriteAllTextAsync(parsed.OutputDirectory, result);
+			ConsoleHelpers.WriteColor("\tWriting file...", ConsoleColor.Blue);
+			await File.WriteAllTextAsync(parsed.OutputFile, result);
+			ConsoleHelpers.WriteLineColor("Done!", ConsoleColor.Green);
+
+			configFiles.Add(parsed);
+		}
+
+		if (opts.RootLLMsTxt != null)
+		{
+			ConsoleHelpers.WriteColor("Generating root llms.txt file...", ConsoleColor.Blue);
+			var sb = new StringBuilder();
+			sb.AppendLine($"This project has multiple sub-projects in it.");
+			sb.AppendLine($"Some of these projects have their own `llms.txt` file for you to follow.");
+			sb.AppendLine($"They are listed here:");
+			foreach(var config in configFiles)
+			{
+				var fileInfo = new FileInfo(opts.RootLLMsTxt);
+				if (fileInfo.Directory != null)
+					sb.AppendLine($"* {config.Name}: {Path.GetRelativePath(fileInfo.Directory.FullName, config.OutputFile)}");
+			}
+			sb.AppendLine($"Read those files to explore their structure if needed.");
+
+			await File.WriteAllTextAsync(opts.RootLLMsTxt, sb.ToString());
 			ConsoleHelpers.WriteLineColor("Done!", ConsoleColor.Green);
 		}
+
+		ConsoleHelpers.WriteLineColor("Done!", ConsoleColor.Green);
 	}
 
 	private static async Task<string> GenerateLLMsTxt(IGeneratorConfig config)

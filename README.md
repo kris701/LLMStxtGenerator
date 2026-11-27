@@ -35,7 +35,8 @@ By using the config:
 ```json
 {
 	"$type":0,
-	"OutputDirectory":".",
+	"Name":"C# Config",
+	"OutputFile":"llms.txt",
 	"WorkingDirectory":".",
 	"IncludeGlobs":[
 		"**.cs",

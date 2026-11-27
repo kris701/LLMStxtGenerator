@@ -12,7 +12,9 @@ namespace LLMStxtGenerator.Models.Config
 	[JsonDerivedType(typeof(TypescriptGeneratorConfig), typeDiscriminator: (int)GeneratorTypes.Typescript)]
 	public interface IGeneratorConfig
 	{
-		public string OutputDirectory { get; set; }
+		public string Name { get; set; }
+
+		public string OutputFile { get; set; }
 		public string WorkingDirectory { get; set; }
 		public List<string> IncludeGlobs { get; set; }
 		public List<string> ExcludeGlobs { get; set; }
