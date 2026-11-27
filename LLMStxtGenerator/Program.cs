@@ -5,6 +5,9 @@ using LLMStxtGenerator.Models.Config;
 using LLMStxtGenerator.Services;
 using System.Text.Json;
 
+/// <summary>
+/// Entry CLI program
+/// </summary>
 internal class Program
 {
 	public static async Task Main(string[] args)
@@ -19,7 +22,11 @@ internal class Program
 	{
 		Console.WriteLine("Reading config file...");
 		var text = await File.ReadAllTextAsync(opts.ConfigFile);
-		var parsed = JsonSerializer.Deserialize<CSharpGeneratorConfig>(text);
+		var parsed = JsonSerializer.Deserialize<CSharpGeneratorConfig>(text, new JsonSerializerOptions()
+		{
+			AllowTrailingCommas = true,
+			ReadCommentHandling = JsonCommentHandling.Skip,
+		});
 		if (parsed == null)
 			throw new Exception("Could not parse config file!");
 

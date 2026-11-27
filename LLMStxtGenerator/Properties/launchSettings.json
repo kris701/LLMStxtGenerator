@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "LLMStxtGenerator": {
+      "commandName": "Project",
+      "commandLineArgs": "-c \"C:\\Users\\Kristian\\OneDrive\\Programming\\_GitHub_\\LLMStxtGenerator\\tst-csharp.json\""
+    }
+  }
+}

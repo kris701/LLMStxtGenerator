@@ -1,7 +1,9 @@
 ﻿namespace LLMStxtGenerator.Models.Config
 {
-	public class CSharpGeneratorConfig : IGeneratorConfig
+	/// <summary>
+	/// C# specific config file
+	/// </summary>
+	public class CSharpGeneratorConfig : BaseGeneratorConfig
 	{
-		public string WorkingDirectory { get; set; }
 	}
 }

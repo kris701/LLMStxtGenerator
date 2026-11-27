@@ -2,9 +2,12 @@
 
 namespace LLMStxtGenerator.Services
 {
-	public class TypescriptGeneratorService : IGeneratorService<TypescriptGeneratorConfig>
+	/// <summary>
+	/// Generator for TS projects
+	/// </summary>
+	public class TypescriptGeneratorService : BaseGeneratorService<TypescriptGeneratorConfig>
 	{
-		public async Task<string> Generate(TypescriptGeneratorConfig config)
+		public override async Task<string> Generate(TypescriptGeneratorConfig config)
 		{
 			throw new NotImplementedException();
 		}
