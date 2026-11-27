@@ -3,10 +3,10 @@
 </p>
 
 [![Build and Publish](https://github.com/kris701/LLMS-txt-Generator/actions/workflows/dotnet.yml/badge.svg)](https://github.com/kris701/LLMS-txt-Generator/actions/workflows/dotnet.yml)
-![Nuget](https://img.shields.io/nuget/v/LLMS-txt-Generator)
-![Nuget](https://img.shields.io/nuget/dt/LLMS-txt-Generator)
-![GitHub last commit (branch)](https://img.shields.io/github/last-commit/kris701/LLMS-txt-Generator/main)
-![GitHub commit activity (branch)](https://img.shields.io/github/commit-activity/m/kris701/LLMS-txt-Generator)
+![Nuget](https://img.shields.io/nuget/v/LLMStxtGenerator)
+![Nuget](https://img.shields.io/nuget/dt/LLMStxtGenerator)
+![GitHub last commit (branch)](https://img.shields.io/github/last-commit/kris701/LLMStxtGenerator/main)
+![GitHub commit activity (branch)](https://img.shields.io/github/commit-activity/m/kris701/LLMStxtGenerator)
 ![Static Badge](https://img.shields.io/badge/Platform-Windows-blue)
 ![Static Badge](https://img.shields.io/badge/Platform-Linux-blue)
 ![Static Badge](https://img.shields.io/badge/Framework-dotnet--10.0-green)
@@ -69,7 +69,7 @@ You should consider only these files, unless told otherwise.
    * "LLMStxtGenerator/Services/TypescriptGeneratorService.cs". Declaration: "public class TypescriptGeneratorService". Summary: "Generator for TS projects"
 ```
 
-Which your LLM can then injest, instead of having it look through the entire file structure itself.
+Which your LLM can then ingest, instead of having it look through the entire file structure itself.
 
 You can also do multiple configs at the same time, in case you want multiple `llms.txt` files.
 All you have to do is write `llmstxtgenerator multiple -c config1.json config2.json config3.json`
