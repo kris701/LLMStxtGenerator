@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace LLMStxtGenerator.Models.Config
+﻿namespace LLMStxtGenerator.Models.Config
 {
 	/// <summary>
 	/// Base implementation of the generator config interface. Simply includes fields that all the sub implementations all have anyways.

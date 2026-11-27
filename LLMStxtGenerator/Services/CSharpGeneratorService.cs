@@ -9,8 +9,8 @@ namespace LLMStxtGenerator.Services
 	/// </summary>
 	public class CSharpGeneratorService : BaseGeneratorService<CSharpGeneratorConfig>
 	{
-		private static Regex _declarationRegex = new Regex("\\b(?:public|private|protected|internal|abstract|sealed|static|virtual)?\\s*(?:class|interface|struct|enum|record|delegate)\\s+([A-Z][a-zA-Z0-9_]*)\\b", RegexOptions.Multiline | RegexOptions.Singleline | RegexOptions.Compiled);
-		private static Regex _summaryRegex = new Regex("<summary>(.*?)<\\/summary>", RegexOptions.Multiline | RegexOptions.Singleline | RegexOptions.Compiled);
+		private static readonly Regex _declarationRegex = new Regex("\\b(?:public|private|protected|internal|abstract|sealed|static|virtual)?\\s*(?:class|interface|struct|enum|record|delegate)\\s+([A-Z][a-zA-Z0-9_]*)\\b", RegexOptions.Multiline | RegexOptions.Singleline | RegexOptions.Compiled);
+		private static readonly Regex _summaryRegex = new Regex("<summary>(.*?)<\\/summary>", RegexOptions.Multiline | RegexOptions.Singleline | RegexOptions.Compiled);
 
 		public override async Task<string> Generate(CSharpGeneratorConfig config)
 		{
@@ -20,7 +20,7 @@ namespace LLMStxtGenerator.Services
 
 			sb.AppendLine($"There are a total of {allMatching.Count} files relevant for you.");
 			sb.AppendLine($"You should consider only these files, unless told otherwise.");
-			foreach(var file in allMatching)
+			foreach (var file in allMatching)
 			{
 				var fileText = File.ReadAllText(Path.Combine(config.WorkingDirectory, file));
 				var indent = GetFileDepth(file);
@@ -80,7 +80,7 @@ namespace LLMStxtGenerator.Services
 			if (matches.Count == 0)
 				return null;
 			var value = "";
-			foreach(Match match in matches)
+			foreach (Match match in matches)
 			{
 				if (match.Groups.Count > 1 && match.Groups[1].Value != "")
 				{
@@ -89,7 +89,7 @@ namespace LLMStxtGenerator.Services
 				}
 			}
 
-			value = value.Replace("///","");
+			value = value.Replace("///", "");
 			value = value.Replace("\r", "");
 			value = value.Replace("\n", "");
 			value = value.Replace("\t", "");

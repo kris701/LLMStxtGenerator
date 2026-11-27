@@ -1,10 +1,6 @@
 ﻿using LLMStxtGenerator.Models.Config;
 using Microsoft.Extensions.FileSystemGlobbing;
 using Microsoft.Extensions.FileSystemGlobbing.Abstractions;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Text.RegularExpressions;
 
 namespace LLMStxtGenerator.Services
 {

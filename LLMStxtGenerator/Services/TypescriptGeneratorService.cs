@@ -9,8 +9,8 @@ namespace LLMStxtGenerator.Services
 	/// </summary>
 	public class TypescriptGeneratorService : BaseGeneratorService<TypescriptGeneratorConfig>
 	{
-		private static Regex _declarationRegex = new Regex("\\b(?:export)?\\s*(?:class|interface|type|enum|const|let|var|function)\\s+[\\w$]+", RegexOptions.Multiline | RegexOptions.Singleline | RegexOptions.Compiled);
-		private static Regex _summaryRegex = new Regex("\\/\\*\\*(.*?)\\*\\/", RegexOptions.Multiline | RegexOptions.Singleline | RegexOptions.Compiled);
+		private static readonly Regex _declarationRegex = new Regex("\\b(?:export)?\\s*(?:class|interface|type|enum|const|function)\\s+[\\w$]+", RegexOptions.Multiline | RegexOptions.Singleline | RegexOptions.Compiled);
+		private static readonly Regex _summaryRegex = new Regex("\\/\\*\\*(.*?)\\*\\/", RegexOptions.Multiline | RegexOptions.Singleline | RegexOptions.Compiled);
 
 		public override async Task<string> Generate(TypescriptGeneratorConfig config)
 		{
