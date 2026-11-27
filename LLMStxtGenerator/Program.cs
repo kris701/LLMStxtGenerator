@@ -22,7 +22,7 @@ internal class Program
 	{
 		Console.WriteLine("Reading config file...");
 		var text = await File.ReadAllTextAsync(opts.ConfigFile);
-		var parsed = JsonSerializer.Deserialize<CSharpGeneratorConfig>(text, new JsonSerializerOptions()
+		var parsed = JsonSerializer.Deserialize<IGeneratorConfig>(text, new JsonSerializerOptions()
 		{
 			AllowTrailingCommas = true,
 			ReadCommentHandling = JsonCommentHandling.Skip,
