@@ -5,6 +5,7 @@
 	/// </summary>
 	public abstract class BaseGeneratorConfig : IGeneratorConfig
 	{
+		public string OutputDirectory { get; set; }
 		public string WorkingDirectory { get; set; }
 		public List<string> IncludeGlobs { get; set; }
 		public List<string> ExcludeGlobs { get; set; }

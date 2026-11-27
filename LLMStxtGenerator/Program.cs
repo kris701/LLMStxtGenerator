@@ -1,5 +1,6 @@
 ﻿using CommandLine;
 using CommandLine.Text;
+using LLMStxtGenerator.Helpers;
 using LLMStxtGenerator.Models;
 using LLMStxtGenerator.Models.Config;
 using LLMStxtGenerator.Services;
@@ -13,14 +14,15 @@ internal class Program
 	public static async Task Main(string[] args)
 	{
 		var parser = new Parser(with => with.HelpWriter = null);
-		var parserResult = parser.ParseArguments<Options>(args);
+		var parserResult = parser.ParseArguments<OptionsSingle, OptionsMultiple>(args);
 		parserResult.WithNotParsed(errs => DisplayHelp(parserResult, errs));
-		await parserResult.WithParsedAsync(Run);
+		await parserResult.WithParsedAsync<OptionsSingle>(RunSingle);
+		await parserResult.WithParsedAsync<OptionsMultiple>(RunMultiple);
 	}
 
-	private static async Task Run(Options opts)
+	private static async Task RunSingle(OptionsSingle opts)
 	{
-		Console.WriteLine("Reading config file...");
+		ConsoleHelpers.WriteColor("Reading config file...   ", ConsoleColor.Blue);
 		var text = await File.ReadAllTextAsync(opts.ConfigFile);
 		var parsed = JsonSerializer.Deserialize<IGeneratorConfig>(text, new JsonSerializerOptions()
 		{
@@ -29,14 +31,42 @@ internal class Program
 		});
 		if (parsed == null)
 			throw new Exception("Could not parse config file!");
+		ConsoleHelpers.WriteLineColor("Done!", ConsoleColor.Green);
 
-		Console.WriteLine("Starting generator...");
+		ConsoleHelpers.WriteColor("Starting generator...   ", ConsoleColor.Blue);
 		var result = await GenerateLLMsTxt(parsed);
+		ConsoleHelpers.WriteLineColor("Done!", ConsoleColor.Green);
 
-		Console.WriteLine("Writing file...");
-		await File.WriteAllTextAsync(opts.OutputPath, result);
+		ConsoleHelpers.WriteColor("Writing file...   ", ConsoleColor.Blue);
+		await File.WriteAllTextAsync(parsed.OutputDirectory, result);
+		ConsoleHelpers.WriteLineColor("Done!", ConsoleColor.Green);
+	}
 
-		Console.WriteLine("Done!");
+	private static async Task RunMultiple(OptionsMultiple opts)
+	{
+		ConsoleHelpers.WriteLineColor($"A total of {opts.ConfigFiles.Count()} config files to process.", ConsoleColor.Blue);
+
+		foreach (var config in opts.ConfigFiles)
+		{
+			ConsoleHelpers.WriteColor("Reading config file...", ConsoleColor.Blue);
+			var text = await File.ReadAllTextAsync(config);
+			var parsed = JsonSerializer.Deserialize<IGeneratorConfig>(text, new JsonSerializerOptions()
+			{
+				AllowTrailingCommas = true,
+				ReadCommentHandling = JsonCommentHandling.Skip,
+			});
+			if (parsed == null)
+				throw new Exception("Could not parse config file!");
+			ConsoleHelpers.WriteLineColor("Done!", ConsoleColor.Green);
+
+			ConsoleHelpers.WriteColor("Starting generator...", ConsoleColor.Blue);
+			var result = await GenerateLLMsTxt(parsed);
+			ConsoleHelpers.WriteLineColor("Done!", ConsoleColor.Green);
+
+			ConsoleHelpers.WriteColor("Writing file...", ConsoleColor.Blue);
+			await File.WriteAllTextAsync(parsed.OutputDirectory, result);
+			ConsoleHelpers.WriteLineColor("Done!", ConsoleColor.Green);
+		}
 	}
 
 	private static async Task<string> GenerateLLMsTxt(IGeneratorConfig config)
@@ -59,7 +89,7 @@ internal class Program
 		var sentenceBuilder = SentenceBuilder.Create();
 		foreach (var error in errs)
 			if (error is not HelpRequestedError)
-				Console.WriteLine(sentenceBuilder.FormatError(error));
+				ConsoleHelpers.WriteLineColor(sentenceBuilder.FormatError(error), ConsoleColor.Red);
 	}
 
 	private static void DisplayHelp<T>(ParserResult<T> result, IEnumerable<CommandLine.Error> errs)
@@ -69,7 +99,7 @@ internal class Program
 			h.AddEnumValuesToHelpText = true;
 			return h;
 		}, e => e, verbsIndex: true);
-		Console.WriteLine(helpText);
+		ConsoleHelpers.WriteLineColor(helpText);
 		HandleParseError(errs);
 	}
 }

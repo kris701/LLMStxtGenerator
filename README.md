@@ -35,6 +35,7 @@ By using the config:
 ```json
 {
 	"$type":0,
+	"OutputDirectory":".",
 	"WorkingDirectory":".",
 	"IncludeGlobs":[
 		"**.cs",
@@ -48,7 +49,7 @@ By using the config:
 }
 ```
 
-And running it with `llmstxtgenerator -c config.json`.
+And running it with `llmstxtgenerator single -c config.json`.
 It will generate a `llms.txt` file that looks like this:
 
 ```txt
@@ -69,3 +70,5 @@ You should consider only these files, unless told otherwise.
 
 Which your LLM can then injest, instead of having it look through the entire file structure itself.
 
+You can also do multiple configs at the same time, in case you want multiple `llms.txt` files.
+All you have to do is write `llmstxtgenerator multiple -c config1.json config2.json config3.json`
