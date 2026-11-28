@@ -2,7 +2,7 @@
   "profiles": {
     "LLMStxtGenerator": {
       "commandName": "Project",
-      "commandLineArgs": "multiple -c \"C:\\Users\\Kristian\\OneDrive\\Programming\\_GitHub_\\LLMStxtGenerator\\tst-csharp.json\" \"C:\\Users\\Kristian\\OneDrive\\Programming\\_GitHub_\\LLMStxtGenerator\\tst-ts.json\" -r \"C:/Users/Kristian/OneDrive/Programming/_GitHub_/LLMStxtGenerator/llms.txt\""
+      "commandLineArgs": "single -c \"C:\\Users\\Kristian\\OneDrive\\Programming\\_GitHub_\\LLMStxtGenerator\\tst-tsql.json\""
     }
   }
 }

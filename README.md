@@ -71,5 +71,12 @@ You should consider only these files, unless told otherwise.
 
 Which your LLM can then ingest, instead of having it look through the entire file structure itself.
 
+The available generators are:
+* 0: C# projects
+* 1: TS projects
+* 2: T-SQL projects
+
+The numbers are what type your should put into the `$type` field in the config file.
+
 You can also do multiple configs at the same time, in case you want multiple `llms.txt` files.
 All you have to do is write `llmstxtgenerator multiple -c config1.json config2.json config3.json`

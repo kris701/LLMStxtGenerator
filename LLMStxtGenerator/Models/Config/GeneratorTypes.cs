@@ -6,6 +6,7 @@
 	public enum GeneratorTypes
 	{
 		CSharp,
-		Typescript
+		Typescript,
+		TSQL,
 	}
 }

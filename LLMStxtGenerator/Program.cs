@@ -104,6 +104,9 @@ internal class Program
 			case TypescriptGeneratorConfig c:
 				var tsGenerator = new TypescriptGeneratorService();
 				return await tsGenerator.Generate(c);
+			case TSQLGeneratorConfig c:
+				var tSQLGenerator = new TSQLGeneratorService();
+				return await tSQLGenerator.Generate(c);
 			default:
 				throw new Exception("Unknown config type!");
 		}
